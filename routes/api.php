@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\AuthorController;
 
-// Rute untuk Genre (Read all & Create)
-Route::get('/genres', [GenreController::class, 'index']);
-Route::post('/genres', [GenreController::class, 'store']);
-
-// Rute untuk Author (Read all & Create)
-Route::get('/authors', [AuthorController::class, 'index']);
-Route::post('/authors', [AuthorController::class, 'store']);
+// Menggunakan apiResource untuk Genre dan Author
+Route::apiResource('genres', GenreController::class);
+Route::apiResource('authors', AuthorController::class);
