@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,17 +21,26 @@ Route::get('/authors/{id}', [AuthorController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
-| Protected Routes (Hanya dapat diakses oleh Admin / User yang terautentikasi)
+| Protected Routes (Membutuhkan Autentikasi / Bearer Token Sanctum)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth:sanctum')->group(function () {
-    // Genre Admin Routes (Create, Update, Destroy)
+    // --- Genre Admin Routes (Create, Update, Destroy) ---
     Route::post('/genres', [GenreController::class, 'store']);
     Route::put('/genres/{id}', [GenreController::class, 'update']);
     Route::delete('/genres/{id}', [GenreController::class, 'destroy']);
 
-    // Author Admin Routes (Create, Update, Destroy)
+    // --- Author Admin Routes (Create, Update, Destroy) ---
     Route::post('/authors', [AuthorController::class, 'store']);
     Route::put('/authors/{id}', [AuthorController::class, 'update']);
     Route::delete('/authors/{id}', [AuthorController::class, 'destroy']);
+
+    // --- Transaction Routes (Customer: Create, Show, Update) ---
+    Route::post('/transactions', [TransactionController::class, 'store']);
+    Route::get('/transactions/{id}', [TransactionController::class, 'show']);
+    Route::put('/transactions/{id}', [TransactionController::class, 'update']);
+
+    // --- Transaction Routes (Admin: Read All & Destroy) ---
+    Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::delete('/transactions/{id}', [TransactionController::class, 'destroy']);
 });
